@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lastpass_HaveIBeenPwned_Checker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Lastpass Have I Been Pwned Checker" MinHeight="450" MinWidth="750"
+        ResizeMode="CanResize">
     <Grid>
-        
+        <Menu Height="21" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem x:Name="import" Header="Import" Click="ImportClick"></MenuItem>
+                <MenuItem x:Name="run" Header="Run" Click="RunClick"></MenuItem>
+                <MenuItem x:Name="exit" Header="Exit" Click="ExitClick"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <Canvas x:Name="DetailView" Margin="0,21,-0.4,-0.4" HorizontalAlignment="Right" Width="416">
+            <Label Content="Site:" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" Width="66"/>
+            <Label x:Name="SiteLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="26" Width="336"/>
+            <Label Content="URL:" HorizontalAlignment="Left" Margin="0,57,0,0" VerticalAlignment="Top" Width="66"/>
+            <Label x:Name="URLLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="57" Width="336"/>
+            <Label Content="Username:" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="UsernameLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="89" Width="336"/>
+            <Label Content="Password:" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top" Width="66"/>
+            <Label x:Name="PasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="119" Width="336"/>
+            <Label Content="Matched:" HorizontalAlignment="Left" Margin="0,150,0,0" VerticalAlignment="Top" Width="66"/>
+            <Label x:Name="MatchedLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="150" Width="336"/>
+            <Label Content="Matches:" HorizontalAlignment="Left" Margin="0,181,0,0" VerticalAlignment="Top" Width="66"/>
+            <Label x:Name="MatchCountLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="181" Width="336"/>
+        </Canvas>
+        <ListView x:Name="QueueView" Margin="0,21,416,0" SelectionChanged="QueueViewSelectionChanged" VirtualizingPanel.IsVirtualizing="False">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Matched}" Value="true">
+                            <Setter Property="Background" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+        </ListView>
     </Grid>
 </Window>
