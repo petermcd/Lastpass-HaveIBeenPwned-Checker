@@ -40,8 +40,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
                 string[] lineDetails = lines[i].Split(':');
                 if (passwordSuffix + lineDetails[0].ToUpper() == password)
                 {
-                    int count = 0;
-                    int.TryParse(lineDetails[1], out count);
+                    int.TryParse(lineDetails[1], out int count);
                     response[0] = 1;
                     response[1] = count;
                     return response;

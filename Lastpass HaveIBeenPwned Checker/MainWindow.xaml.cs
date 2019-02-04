@@ -5,6 +5,7 @@ using System.Drawing;
 using FileHelpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace Lastpass_HaveIBeenPwned_Checker
 {
@@ -14,8 +15,10 @@ namespace Lastpass_HaveIBeenPwned_Checker
     public partial class MainWindow : Window
     {
         public ObservableCollection<Site> sites;
+        Thread mainThread;
         public MainWindow()
         {
+            this.mainThread = Thread.CurrentThread;
             this.sites = new ObservableCollection<Site>();
             InitializeComponent();
             QueueView.ItemsSource = this.sites;
@@ -67,15 +70,21 @@ namespace Lastpass_HaveIBeenPwned_Checker
 
         private void RunClick(object sender, RoutedEventArgs e)
         {
-            Checker ch = new Checker();
             for (int i = 0; i < this.sites.Count; i++)
             {
-                ch.CheckSite(this.sites[i]);
-                if (i == this.QueueView.SelectedIndex)
-                {
-                    this.PopulateDetailView();
-                }
+                ThreadPool.QueueUserWorkItem(CheckSite, this.sites[i]);
             }
+        }
+
+        private void CheckSite(object site)
+        {
+            Site iSite = site as Site;
+            Checker ch = new Checker();
+            ch.CheckSite(iSite);
+            this.Dispatcher.Invoke(() =>
+            {
+                this.PopulateDetailView();
+            });
         }
 
         private void ExitClick(object sender, RoutedEventArgs e)
