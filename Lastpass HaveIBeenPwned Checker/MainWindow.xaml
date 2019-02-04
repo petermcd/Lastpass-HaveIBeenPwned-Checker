@@ -8,29 +8,28 @@
         Title="Lastpass Have I Been Pwned Checker" MinHeight="450" MinWidth="750"
         ResizeMode="CanResize">
     <Grid>
-        <Menu Height="21" VerticalAlignment="Top">
+        <Menu Height="21" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0,0">
             <MenuItem Header="File">
                 <MenuItem x:Name="import" Header="Import" Click="ImportClick"></MenuItem>
                 <MenuItem x:Name="run" Header="Run" Click="RunClick"></MenuItem>
                 <MenuItem x:Name="exit" Header="Exit" Click="ExitClick"></MenuItem>
             </MenuItem>
         </Menu>
-        <Canvas x:Name="DetailView" Margin="0,21,-0.4,-0.4" HorizontalAlignment="Right" Width="416">
+        <Canvas x:Name="DetailView" Margin="0,21,0,30" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="400">
             <Label Content="Site:" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="SiteLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="26" Width="336"/>
+            <Label x:Name="SiteLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="26" Width="320"/>
             <Label Content="URL:" HorizontalAlignment="Left" Margin="0,57,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="URLLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="57" Width="336"/>
+            <Label x:Name="URLLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="57" Width="320"/>
             <Label Content="Username:" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="UsernameLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="89" Width="336"/>
+            <Label x:Name="UsernameLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="89" Width="320"/>
             <Label Content="Password:" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="PasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="119" Width="336"/>
+            <Label x:Name="PasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="119" Width="320"/>
             <Label Content="Matched:" HorizontalAlignment="Left" Margin="0,150,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="MatchedLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="150" Width="336"/>
+            <Label x:Name="MatchedLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="150" Width="320"/>
             <Label Content="Matches:" HorizontalAlignment="Left" Margin="0,181,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="MatchCountLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="181" Width="336"/>
+            <Label x:Name="MatchCountLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="181" Width="320"/>
         </Canvas>
-        <ListView x:Name="QueueView" Margin="0,21,416,0" SelectionChanged="QueueViewSelectionChanged" VirtualizingPanel.IsVirtualizing="False">
-
+        <ListView x:Name="QueueView" Margin="0,21,404.6,29.6" SelectionChanged="QueueViewSelectionChanged" VirtualizingPanel.IsVirtualizing="False" MinWidth="350">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -48,5 +47,18 @@
                 </Style>
             </ListView.Resources>
         </ListView>
+        <StatusBar Margin="0,0,0,0" Grid.ColumnSpan="2" Height="30" VerticalAlignment="Bottom">
+            <ProgressBar x:Name="progress" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="181" RenderTransformOrigin="0.5,0.5" Minimum="0" Maximum="100">
+                <ProgressBar.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ProgressBar.RenderTransform>
+            </ProgressBar>
+            <Label x:Name="ProgressLabel" Content="" Width="222"/>
+        </StatusBar>
     </Grid>
 </Window>

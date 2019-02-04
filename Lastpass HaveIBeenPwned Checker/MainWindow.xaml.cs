@@ -9,9 +9,6 @@ using System.Threading;
 
 namespace Lastpass_HaveIBeenPwned_Checker
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public ObservableCollection<Site> sites;
@@ -24,6 +21,21 @@ namespace Lastpass_HaveIBeenPwned_Checker
             QueueView.ItemsSource = this.sites;
             this.DataContext = this;
             this.PopulateDetailView();
+            this.HideProgress();
+        }
+
+        private void HideProgress()
+        {
+            progress.Value = 0;
+            progress.Visibility = Visibility.Hidden;
+            ProgressLabel.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowProgress()
+        {
+            progress.Value = 0;
+            progress.Visibility = Visibility.Visible;
+            ProgressLabel.Visibility = Visibility.Visible;
         }
 
         private void PopulateDetailView()
@@ -49,6 +61,17 @@ namespace Lastpass_HaveIBeenPwned_Checker
             }
         }
 
+        private void IncreaseProgress()
+        {
+            progress.Value++;
+            if (progress.Value == this.sites.Count)
+            {
+                ProgressLabel.Content = "Complete";
+                return;
+            }
+            ProgressLabel.Content = progress.Value.ToString() + "/" + this.sites.Count.ToString();
+        }
+
         private void ImportClick(object sender, RoutedEventArgs e)
         {
             string filePath = string.Empty;
@@ -58,18 +81,21 @@ namespace Lastpass_HaveIBeenPwned_Checker
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     this.sites.Clear();
+                    this.HideProgress();
                     FileHelperEngine<Site> engine = new FileHelperEngine<Site>();
                     Site[] result = engine.ReadFile(openFileDialog.FileName);
                     foreach (Site res in result)
                     {
                         this.sites.Add(res);
                     }
+                    progress.Maximum = this.sites.Count;
                 }
             }
         }
 
         private void RunClick(object sender, RoutedEventArgs e)
         {
+            this.ShowProgress();
             for (int i = 0; i < this.sites.Count; i++)
             {
                 ThreadPool.QueueUserWorkItem(CheckSite, this.sites[i]);
@@ -83,6 +109,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
             ch.CheckSite(iSite);
             this.Dispatcher.Invoke(() =>
             {
+                this.IncreaseProgress();
                 this.PopulateDetailView();
             });
         }

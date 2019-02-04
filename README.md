@@ -27,5 +27,4 @@ The project has very few dependencies. These are:
 
 So far the tool is very basic and I would like to do a lot more to it. These include:
 
-* Progress bar - It would be handy to see how close to completion the tool is.
 * Prettify - The tool is pretty ugly at present and would benefit from a facelift.
