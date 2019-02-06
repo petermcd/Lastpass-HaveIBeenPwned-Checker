@@ -28,3 +28,6 @@ The project has very few dependencies. These are:
 So far the tool is very basic and I would like to do a lot more to it. These include:
 
 * Prettify - The tool is pretty ugly at present and would benefit from a facelift.
+* Icons - Create icons for the app
+* About and Help - It would be good to have an about page as well as a help section
+* Error Handling - At present csv input is trusted and no checks are carried out for a connection therefore can fail easily
