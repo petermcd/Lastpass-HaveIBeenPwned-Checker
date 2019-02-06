@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lastpass_HaveIBeenPwned_Checker"
         mc:Ignorable="d"
         Title="Lastpass Have I Been Pwned Checker" MinHeight="600" MinWidth="750"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize" Height="569.6" Width="764.8">
     <Grid>
         <Menu Height="21" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0,0">
             <MenuItem Header="File">
@@ -20,7 +20,29 @@
                 <MenuItem x:Name="About" Header="About" Icon="" Click="About_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <ListView x:Name="QueueView" Margin="0,21,404.6,29.6" SelectionChanged="QueueViewSelectionChanged" VirtualizingPanel.IsVirtualizing="False" MinWidth="350">
+        <Grid x:Name="DetailView" Margin="0,21,0,355.4" MinWidth="400" HorizontalAlignment="Right" Width="400">
+            <Label Content="Site:" VerticalAlignment="Top" Margin="0,0,344,0" HorizontalAlignment="Right" Width="61"/>
+            <Label x:Name="SiteLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="0" Margin="0,0,10,0" HorizontalAlignment="Right" Width="324"/>
+            <Label Content="URL:" Margin="0,31,344,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="61"/>
+            <Label x:Name="URLLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="31" Margin="0,31,10,0" HorizontalAlignment="Right" Width="324"/>
+            <Label Content="Username:" Margin="0,62,339,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="66"/>
+            <Label x:Name="UsernameLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="62" Margin="0,62,10,0" HorizontalAlignment="Right" Width="324"/>
+            <Label Content="Password:" Margin="0,93,339,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="66"/>
+            <Label x:Name="PasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="93" Margin="0,93,10,0" HorizontalAlignment="Right" Width="324"/>
+            <Label Content="Matched:" Margin="0,124,339,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="66"/>
+            <Label x:Name="MatchedLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="124" Margin="0,124,10,0" HorizontalAlignment="Right" Width="324"/>
+            <Label Content="Matches:" Margin="-5,155,339,0" VerticalAlignment="Top"/>
+            <Label x:Name="MatchCountLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="155" Margin="0,155,10,0" HorizontalAlignment="Right" Width="324"/>
+        </Grid>
+        <Grid x:Name="ApiView" Margin="0,215,0,29.6" MinWidth="400" HorizontalAlignment="Right" Width="400">
+            <Label Content="Hashed Password:" VerticalAlignment="Top" Margin="-5,0,301,0"/>
+            <Label x:Name="HashedPasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="109"  Margin="109,0,12.8,0"/>
+            <Label Content="Requested URL:" VerticalAlignment="Top" Margin="0,31,301,0" HorizontalAlignment="Right" Width="104"/>
+            <Label x:Name="ApiUrlLabel" Content="" VerticalAlignment="Top" Canvas.Left="109" Canvas.Top="31" Margin="109,31,13,0"/>
+            <Label Content="Response" VerticalAlignment="Top" Margin="0,62,301,0" HorizontalAlignment="Right" Width="104"/>
+            <TextBox x:Name="ResponseLabel" TextWrapping="NoWrap" Text="" Canvas.Top="93" Width="380" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Canvas.Left="10" VerticalScrollBarVisibility="Auto" Margin="0,93,13,10" HorizontalAlignment="Right"/>
+        </Grid>
+        <ListView x:Name="QueueView" SelectionChanged="QueueViewSelectionChanged" VirtualizingPanel.IsVirtualizing="False" MinWidth="350" Margin="0,21,408.4,29.4" BorderBrush="{x:Null}" BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -38,28 +60,6 @@
                 </Style>
             </ListView.Resources>
         </ListView>
-        <Canvas x:Name="DetailView" Margin="0,21,-0.4,290.6" HorizontalAlignment="Right" Width="405">
-            <Label Content="Site:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="SiteLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="0" Width="320"/>
-            <Label Content="URL:" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="URLLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="31" Width="320"/>
-            <Label Content="Username:" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="UsernameLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="62" Width="320"/>
-            <Label Content="Password:" HorizontalAlignment="Left" Margin="0,93,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="PasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="93" Width="320"/>
-            <Label Content="Matched:" HorizontalAlignment="Left" Margin="0,124,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="MatchedLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="124" Width="320"/>
-            <Label Content="Matches:" HorizontalAlignment="Left" Margin="0,155,0,0" VerticalAlignment="Top" Width="66"/>
-            <Label x:Name="MatchCountLabel" Content="" VerticalAlignment="Top" Canvas.Left="70" Canvas.Top="155" Width="320"/>
-        </Canvas>
-        <Canvas x:Name="ApiView" HorizontalAlignment="Right" Margin="357,215,-0.4,29.6" Width="405">
-            <Label Content="Hashed Password:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="104"/>
-            <Label x:Name="HashedPasswordLabel" Content="" VerticalAlignment="Top" Canvas.Left="109" Canvas.Top="0" Width="281"/>
-            <Label Content="Requested URL:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Canvas.Top="31"/>
-            <Label x:Name="ApiUrlLabel" Content="" VerticalAlignment="Top" Canvas.Left="109" Canvas.Top="31" Width="281"/>
-            <Label Content="Response" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Canvas.Top="62"/>
-            <TextBox x:Name="ResponseLabel" TextWrapping="NoWrap" Text="" Canvas.Top="93" Height="158" Width="380" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Canvas.Left="10" VerticalScrollBarVisibility="Auto"/>
-        </Canvas>
         <StatusBar Margin="0,0,0,0" Grid.ColumnSpan="2" Height="30" VerticalAlignment="Bottom">
             <ProgressBar x:Name="progress" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="181" RenderTransformOrigin="0.5,0.5" Minimum="0" Maximum="100">
                 <ProgressBar.RenderTransform>
