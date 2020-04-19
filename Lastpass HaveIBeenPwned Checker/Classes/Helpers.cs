@@ -1,10 +1,12 @@
-﻿using System.Security.Cryptography;
+﻿using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Lastpass_HaveIBeenPwned_Checker
 {
     class Helpers
     {
+        protected Helpers(){}
         public static string ConvertToSha1(string password)
         {
             using (SHA1Managed sha1 = new SHA1Managed())
@@ -15,7 +17,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
                 {
                     builder.Append(b.ToString("X2"));
                 }
-                return builder.ToString().ToUpper();
+                return builder.ToString().ToUpper(CultureInfo.InvariantCulture);
             }
         }
     }
