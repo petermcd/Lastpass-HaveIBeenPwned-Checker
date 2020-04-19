@@ -1,5 +1,7 @@
 # LastPass Have I Been Pwned Checker
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/073d068909364d388b06404fbe40dc52)](https://app.codacy.com/manual/petermcd/Lastpass-HaveIBeenPwned-Checker?utm_source=github.com&utm_medium=referral&utm_content=petermcd/Lastpass-HaveIBeenPwned-Checker&utm_campaign=Badge_Grade_Dashboard)
+
 With recent breaches, it has become apparent that there is a need to be able to check the password that you have with databases 
 such as Have I Been Pwned.
 
