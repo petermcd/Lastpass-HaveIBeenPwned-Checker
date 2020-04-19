@@ -24,7 +24,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
                 this._sites = value;
             }
         }
-        Thread mainThread;
+        private readonly Thread mainThread;
         public MainWindow()
         {
             this.mainThread = Thread.CurrentThread;
@@ -62,7 +62,6 @@ namespace Lastpass_HaveIBeenPwned_Checker
         #region Click Actions
         private void ImportClick(object sender, RoutedEventArgs e)
         {
-            string filePath = string.Empty;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Filter = "CSV files (*.csv)|*.csv";
