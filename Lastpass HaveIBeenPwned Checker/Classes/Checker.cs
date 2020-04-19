@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Text;
 using System.Net;
+using System.Globalization;
 
 namespace Lastpass_HaveIBeenPwned_Checker
 {
     class Checker
     {
 
-        public static string API_URL = "https://api.pwnedpasswords.com/range/";
+        public const string API_URL = "https://api.pwnedpasswords.com/range/";
         public void CheckSite(Site site)
         {
             site.Processed = true;
@@ -25,16 +26,16 @@ namespace Lastpass_HaveIBeenPwned_Checker
             WebClient client = new WebClient();
             byte[] content = client.DownloadData(Checker.API_URL + site.Sha1PasswordShortened);
             client.Dispose();
-            return this.CheckResponse(Encoding.UTF8.GetString(content), site);
+            return Checker.CheckResponse(Encoding.UTF8.GetString(content), site);
         }
-        private int[] CheckResponse(string requestResponse, Site site)
+        private static int[] CheckResponse(string requestResponse, Site site)
         {
             int[] response = { 0, 0 };
             site.Responses = requestResponse.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             for (int i = 0; i < site.Responses.Count(); i++)
             {
                 string[] lineDetails = site.Responses[i].Split(':');
-                if (site.Sha1PasswordShortened + lineDetails[0].ToUpper() == site.Sha1Password)
+                if (site.Sha1PasswordShortened + lineDetails[0].ToUpper(CultureInfo.InvariantCulture) == site.Sha1Password)
                 {
                     int.TryParse(lineDetails[1], out int count);
                     response[0] = 1;

@@ -12,14 +12,25 @@ namespace Lastpass_HaveIBeenPwned_Checker
 {
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Site> sites;
+        private ObservableCollection<Site> _sites;
+        public ObservableCollection<Site> Sites
+        {
+            get
+            {
+                return this._sites;
+            }
+            set
+            {
+                this._sites = value;
+            }
+        }
         Thread mainThread;
         public MainWindow()
         {
             this.mainThread = Thread.CurrentThread;
-            this.sites = new ObservableCollection<Site>();
+            this.Sites = new ObservableCollection<Site>();
             InitializeComponent();
-            QueueView.ItemsSource = this.sites;
+            QueueView.ItemsSource = this.Sites;
             this.DataContext = this;
             this.PopulateDetailView();
             this.HideProgress();
@@ -34,12 +45,12 @@ namespace Lastpass_HaveIBeenPwned_Checker
         private void IncreaseProgress()
         {
             progress.Value++;
-            if (progress.Value == this.sites.Count)
+            if (progress.Value == this.Sites.Count)
             {
                 ProgressLabel.Content = "Complete";
                 return;
             }
-            ProgressLabel.Content = progress.Value.ToString() + "/" + this.sites.Count.ToString();
+            ProgressLabel.Content = progress.Value.ToString() + "/" + this.Sites.Count.ToString();
         }
         private void HideProgress()
         {
@@ -57,16 +68,16 @@ namespace Lastpass_HaveIBeenPwned_Checker
                 openFileDialog.Filter = "CSV files (*.csv)|*.csv";
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    this.sites.Clear();
+                    this.Sites.Clear();
                     this.HideProgress();
                     FileHelperEngine<Site> engine = new FileHelperEngine<Site>();
                     Site[] result = engine.ReadFile(openFileDialog.FileName);
                     foreach (Site res in result)
                     {
-                        this.sites.Add(res);
+                        this.Sites.Add(res);
                     }
-                    progress.Maximum = this.sites.Count;
-                    if (this.sites.Count > 0)
+                    progress.Maximum = this.Sites.Count;
+                    if (this.Sites.Count > 0)
                     {
                         QueueView.SelectedIndex = 0;
                     }
@@ -76,9 +87,9 @@ namespace Lastpass_HaveIBeenPwned_Checker
         private void RunClick(object sender, RoutedEventArgs e)
         {
             this.ShowProgress();
-            for (int i = 0; i < this.sites.Count; i++)
+            for (int i = 0; i < this.Sites.Count; i++)
             {
-                ThreadPool.QueueUserWorkItem(CheckSite, this.sites[i]);
+                ThreadPool.QueueUserWorkItem(CheckSite, this.Sites[i]);
             }
         }
         private void CheckSite(object site)
@@ -114,15 +125,15 @@ namespace Lastpass_HaveIBeenPwned_Checker
             {
                 return;
             }
-            SiteLabel.Content = this.sites[SelectedItem].Name;
-            URLLabel.Content = this.sites[SelectedItem].Url;
-            UsernameLabel.Content = this.sites[SelectedItem].Username;
-            PasswordLabel.Content = this.sites[SelectedItem].Password;
-            var a = QueueView.Items[SelectedItem];
-            if (this.sites[SelectedItem].Matched)
+            SiteLabel.Content = this.Sites[SelectedItem].Name;
+            URLLabel.Content = this.Sites[SelectedItem].Url;
+            UsernameLabel.Content = this.Sites[SelectedItem].Username;
+            PasswordLabel.Content = this.Sites[SelectedItem].Password;
+            _ = QueueView.Items[SelectedItem];
+            if (this.Sites[SelectedItem].Matched)
             {
                 MatchedLabel.Content = "Yes";
-                MatchCountLabel.Content = this.sites[SelectedItem].Count.ToString();
+                MatchCountLabel.Content = this.Sites[SelectedItem].Count.ToString();
             }
             else
             {
@@ -132,16 +143,16 @@ namespace Lastpass_HaveIBeenPwned_Checker
             string ApiUrl = "Not Checked";
             string HashedPassword = "Not Checked";
             string Response = "Not Checked";
-            if (this.sites[SelectedItem].Processed)
+            if (this.Sites[SelectedItem].Processed)
             {
                 ApiUrl = "No Password";
                 HashedPassword = "No Password";
                 Response = "No Password";
-                if (this.sites[SelectedItem].HasPassword())
+                if (this.Sites[SelectedItem].HasPassword())
                 {
-                    ApiUrl = Checker.API_URL + this.sites[SelectedItem].Sha1PasswordShortened;
-                    HashedPassword = this.sites[SelectedItem].Sha1Password;
-                    Response = string.Join("\r\n", this.sites[SelectedItem].Responses);
+                    ApiUrl = Checker.API_URL + this.Sites[SelectedItem].Sha1PasswordShortened;
+                    HashedPassword = this.Sites[SelectedItem].Sha1Password;
+                    Response = string.Join("\r\n", this.Sites[SelectedItem].Responses);
                 }
             }
             ApiUrlLabel.Content = ApiUrl;

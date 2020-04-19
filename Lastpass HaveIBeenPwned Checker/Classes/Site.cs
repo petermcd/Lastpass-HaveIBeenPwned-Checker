@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace Lastpass_HaveIBeenPwned_Checker
 {
     [IgnoreFirst(1)]
-    [IgnoreEmptyLines()]
+    [IgnoreEmptyLines]
     [DelimitedRecord(",")]
     public class Site : INotifyPropertyChanged
     {
@@ -47,7 +47,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
             }
             set
             {
-                return;
+                throw new InvalidOperationException();
             }
         }
         [FieldHidden]
@@ -64,7 +64,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
             }
             set
             {
-                return;
+                throw new InvalidOperationException();
             }
         }
         [FieldHidden]
@@ -78,11 +78,21 @@ namespace Lastpass_HaveIBeenPwned_Checker
             }
         }
         [FieldHidden]
-        public bool Processed;
+        public bool Processed
+        {
+            get => this._Processed;
+            set
+            {
+                this._Processed = value;
+                this.OnPropertyChanged("Processed");
+            }
+        }
         [FieldHidden]
         private bool _Matched;
         [FieldHidden]
         private string[] _Responses;
+        [FieldHidden]
+        private bool _Processed;
         [FieldHidden]
         private string _Sha1Password = "";
         [FieldHidden]
@@ -99,8 +109,8 @@ namespace Lastpass_HaveIBeenPwned_Checker
             this.Fav = string.Empty;
             this.Matched = false;
             this.Count = 0;
-            this.Processed = false;
-            this.Responses = new string[1] { "Not Checked" };
+            this._Processed = false;
+            this.Responses = new string[] { "Not Checked" };
         }
 
         public override string ToString()
