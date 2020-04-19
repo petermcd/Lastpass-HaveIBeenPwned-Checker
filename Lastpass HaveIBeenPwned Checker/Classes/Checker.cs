@@ -17,11 +17,11 @@ namespace Lastpass_HaveIBeenPwned_Checker
             {
                 return;
             }
-            int[] result = this.CallApi(site);
+            int[] result = Checker.CallApi(site);
             site.Matched = result[0] == 1;
             site.Count = result[1];
         }
-        private int[] CallApi(Site site)
+        private static int[] CallApi(Site site)
         {
             WebClient client = new WebClient();
             byte[] content = client.DownloadData(Checker.API_URL + site.Sha1PasswordShortened);

@@ -110,7 +110,7 @@ namespace Lastpass_HaveIBeenPwned_Checker
             this.Matched = false;
             this.Count = 0;
             this._Processed = false;
-            this.Responses = new string[] { "Not Checked" };
+            this.Responses = new[] { "Not Checked" };
         }
 
         public override string ToString()
